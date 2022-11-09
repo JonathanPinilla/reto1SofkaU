@@ -11,7 +11,7 @@ public class Message {
     private String path;
     private LocalDateTime timestamp;
 
-    public void ErrorMessage(Exception excepcion, String path) {
+    public Message(Exception excepcion, String path) {
         this.exception = excepcion.getClass().getSimpleName();
         this.message = excepcion.getMessage();
         this.path = path;

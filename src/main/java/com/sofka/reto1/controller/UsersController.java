@@ -1,6 +1,7 @@
 package com.sofka.reto1.controller;
 
 import com.sofka.reto1.domain.Users;
+import com.sofka.reto1.exception.BusinessException;
 import com.sofka.reto1.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,23 +23,18 @@ public class UsersController {
     private UsersService usersService;
 
     @GetMapping(path = "")
-    public List<Users> getUsers(){
+    public List<Users> getUsers() {
         return usersService.findAll();
     }
 
     @PostMapping(path = "")
-    public Users newUser(@RequestBody Users user) throws IllegalArgumentException {
+    public Users newUser(@RequestBody Users user) throws BusinessException {
         user.setState(1);
-        if(usersService.findByEmail(user.getEmail()).isEmpty()){
-            return usersService.createUser(user);
-        }else{
-            throw new IllegalArgumentException("Email already exists");
-        }
-
+        return usersService.createUser(user);
     }
 
-    @PutMapping (path = "")
-    public Users updateUser(@RequestBody Users user){
-        return usersService.createUser(user);
+    @PutMapping(path = "")
+    public Users updateUser(@RequestBody Users user) throws BusinessException {
+        return usersService.updateUser(user);
     }
 }
